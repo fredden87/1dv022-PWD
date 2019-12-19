@@ -1,0 +1,22 @@
+{
+  "name": "fn222ep-examination-3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1dv022/fn222ep-examination-3.git"
+  },
+  "author": "Fredrik Norrman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/1dv022/fn222ep-examination-3/issues"
+  },
+  "homepage": "https://github.com/1dv022/fn222ep-examination-3#readme",
+  "devDependencies": {
+    "standard": "^14.3.1"
+  }
+}

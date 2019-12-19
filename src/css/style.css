@@ -23,11 +23,11 @@ html, body {
 
 #memory{
     margin-left: 20px;
-    margin-right: 5px;
+    margin-right: 8px;
 }
 
 #chat{
-    margin-right: 5px;
+    margin-right: 8px;
 }
 
 #webcam {
@@ -38,4 +38,8 @@ html, body {
     width: 35px;
     height: 35px;
     background: white;
+}
+
+.hover-effect:hover{
+    transform: scale(1.2);
 }

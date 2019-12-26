@@ -6,9 +6,9 @@ const windowHandler = document.createElement('window-handler')
 document.querySelector('#container').prepend(windowHandler)
 windowHandler.component = document.createElement('chat-app')
 
-dragElement(document.getElementById('app'))
+// dragElement(document.getElementById('app'))
 
-function dragElement(elmnt) {
+function dragElement (elmnt) {
   var pos1 = 0; var pos2 = 0; var pos3 = 0; var pos4 = 0
   if (document.getElementById(elmnt.id + 'header')) {
     // if present, the header is where you move the DIV from:
@@ -18,7 +18,7 @@ function dragElement(elmnt) {
     elmnt.onmousedown = dragMouseDown
   }
 
-  function dragMouseDown(e) {
+  function dragMouseDown (e) {
     e = e || window.event
     e.preventDefault()
     // get the mouse cursor position at startup:
@@ -29,7 +29,7 @@ function dragElement(elmnt) {
     document.onmousemove = elementDrag
   }
 
-  function elementDrag(e) {
+  function elementDrag (e) {
     e = e || window.event
     e.preventDefault()
     // calculate the new cursor position:
@@ -42,7 +42,7 @@ function dragElement(elmnt) {
     elmnt.style.left = (elmnt.offsetLeft - pos1) + 'px'
   }
 
-  function closeDragElement() {
+  function closeDragElement () {
     // stop moving when mouse button is released:
     document.onmouseup = null
     document.onmousemove = null

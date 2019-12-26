@@ -43,3 +43,7 @@ html, body {
 .hover-effect:hover{
     transform: scale(1.2);
 }
+
+window-handler {
+    position: absolute;
+  }

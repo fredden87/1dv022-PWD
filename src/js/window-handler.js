@@ -19,9 +19,6 @@ template.innerHTML = /* html */`
 </style>
 <div id="app">
 <div id="appheader">Click here to move</div>
-<p>Move</p>
-<p>this</p>
-<p>DIV</p>
 </div>
 `
 
@@ -30,6 +27,10 @@ export default class WindowHandler extends window.HTMLElement {
     super()
     this.attachShadow({ mode: 'open' })
     this.shadowRoot.appendChild(template.content.cloneNode(true))
+  }
+
+  set component (component) {
+    this.shadowRoot.querySelector('#app').appendChild(component)
   }
 
   static get observedAttributes () {

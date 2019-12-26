@@ -1,3 +1,4 @@
+import './window-handler.js'
 // Make the DIV element draggable:
 dragElement(document.getElementById('app'))
 

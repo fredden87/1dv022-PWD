@@ -50,19 +50,18 @@ export default class WindowHandler extends window.HTMLElement {
   }
 
   _dragMouseDown (event) {
-    event = event || window.event
+    // event = event || window.event
     event.preventDefault()
     // get the mouse cursor position at startup:
-    this._pos3 = event.target.clientX
-    this._pos4 = event.target.clientY
+    this._pos3 = event.clientX
+    this._pos4 = event.clientY
     event.target.onmouseup = this._closeDragElement
     // call a function whenever the cursor moves:
     event.target.onmousemove = this._elementDrag
   }
 
   _elementDrag (event) {
-    console.log(event.target)
-    event = event || window.event
+    // event = event || window.event
     event.preventDefault()
     // calculate the new cursor position:
     this._pos1 = this._pos3 - event.clientX
@@ -70,8 +69,8 @@ export default class WindowHandler extends window.HTMLElement {
     this._pos3 = event.clientX
     this._pos4 = event.clientY
     // set the element's new position:
-    event.target.style.top = (event.target.offsetTop - this._pos2) + 'px'
-    event.target.style.left = (event.target.offsetLeft - this._pos1) + 'px'
+    event.target.style.top = `${(event.target.offsetTop - this._pos2)}px`
+    event.target.style.left = `${(event.target.offsetLeft - this._pos1)}px`
   }
 
   _closeDragElement (event) {

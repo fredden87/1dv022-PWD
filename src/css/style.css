@@ -45,5 +45,8 @@ html, body {
 }
 
 window-handler {
+    width: 300px;
+    height: 400px;
     position: absolute;
+    background-color: white;
   }

@@ -1,3 +1,4 @@
+let zIndex = 0
 const template = document.createElement('template')
 template.innerHTML = /* html */`
 <style>
@@ -46,6 +47,14 @@ export default class WindowHandler extends window.HTMLElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true))
   }
 
+  static get zIndex () {
+    return zIndex
+  }
+
+  static set zIndex (value) {
+    zIndex += value
+  }
+
   set component (component) {
     this.shadowRoot.querySelector('#app').appendChild(component)
   }
@@ -61,6 +70,7 @@ export default class WindowHandler extends window.HTMLElement {
   connectedCallback () {
     this._pos1 = 0; this._pos2 = 0; this._pos3 = 0; this._pos4 = 0
     this.addEventListener('mousedown', this._handelMouseEvents)
+    this._updateZindex()
   }
 
   _updateRendering () {
@@ -71,6 +81,7 @@ export default class WindowHandler extends window.HTMLElement {
     event.preventDefault()
     const close = this.shadowRoot.querySelector('#imgClose')
     if (event.path[0] !== this && event.path[0] !== close) {
+      this._updateZindex()
       this.shadowRoot.querySelector('#appheader').style.cursor = 'grabbing'
       // get the mouse cursor position at startup
       this._pos3 = event.clientX
@@ -105,6 +116,11 @@ export default class WindowHandler extends window.HTMLElement {
   _remove () {
     this.removeEventListener('mousedown', this._handelMouseEvents)
     this.remove()
+  }
+
+  _updateZindex () {
+    this.style.zIndex = zIndex
+    zIndex++
   }
 }
 

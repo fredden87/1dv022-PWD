@@ -30,11 +30,6 @@ template.innerHTML = /* html */`
     flex-shrink: 0;
   }
 
-.focus{
-  border: 2px solid red;
-  border-radius: 25px;
-}
-
 </style>
 <div id="app">
 <div id="appheader">
@@ -131,7 +126,7 @@ export default class WindowHandler extends window.HTMLElement {
   }
 
   _focusWindow () {
-    this.style.border = 'solid rgb(61, 61, 61)'
+    this.style.border = 'solid rgb(126, 126, 126)'
   }
 
   _unfocusWindow () {

@@ -103,6 +103,7 @@ export default class WindowHandler extends window.HTMLElement {
   }
 
   _remove () {
+    this.removeEventListener('mousedown', this._handelMouseEvents)
     this.remove()
   }
 }

@@ -30,6 +30,11 @@ template.innerHTML = /* html */`
     flex-shrink: 0;
   }
 
+.focus{
+  border: 2px solid red;
+  border-radius: 25px;
+}
+
 </style>
 <div id="app">
 <div id="appheader">
@@ -96,6 +101,7 @@ export default class WindowHandler extends window.HTMLElement {
 
   _elementDrag (event) {
     event.preventDefault()
+    this._focusWindow()
     // calculate the new cursor position
     this._pos1 = this._pos3 - event.clientX
     this._pos2 = this._pos4 - event.clientY
@@ -108,6 +114,7 @@ export default class WindowHandler extends window.HTMLElement {
 
   _closeDragElement (event) {
     // stop moving when mouse button is released
+    this._unfocusWindow()
     this.shadowRoot.querySelector('#appheader').style.cursor = 'grab'
     event.target.onmouseup = null
     event.target.onmousemove = null
@@ -121,6 +128,14 @@ export default class WindowHandler extends window.HTMLElement {
   _updateZindex () {
     this.style.zIndex = zIndex
     zIndex++
+  }
+
+  _focusWindow () {
+    this.style.border = 'solid rgb(61, 61, 61)'
+  }
+
+  _unfocusWindow () {
+    this.style.border = ''
   }
 }
 

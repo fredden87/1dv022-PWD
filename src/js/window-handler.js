@@ -90,6 +90,7 @@ export default class WindowHandler extends window.HTMLElement {
     const icon = this.shadowRoot.querySelector('#icon')
     const name = this.shadowRoot.querySelector('#name')
     if (event.path[0] === appHeader || event.path[0] === icon || event.path[0] === name) {
+      this._focusWindow()
       this._updateZindex()
       this.shadowRoot.querySelector('#appheader').style.cursor = 'grabbing'
       // get the mouse cursor position at startup
@@ -105,7 +106,6 @@ export default class WindowHandler extends window.HTMLElement {
 
   _elementDrag (event) {
     event.preventDefault()
-    this._focusWindow()
     // calculate the new cursor position
     this._pos1 = this._pos3 - event.clientX
     this._pos2 = this._pos4 - event.clientY

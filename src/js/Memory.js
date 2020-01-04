@@ -1,4 +1,4 @@
-module.exports = function (rows, cols, container) {
+export default function (rows, cols, container) {
   let a
   let tiles = []
   let turn1

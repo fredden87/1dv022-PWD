@@ -1,6 +1,6 @@
 import './window-handler.js'
 import './chat-app.js'
-import Memory from './Memory'
+import Memory from './Memory.js'
 Memory(2, 2, 'memoryContainer')
 
 document.querySelector('#memory').addEventListener('click', startMemory)

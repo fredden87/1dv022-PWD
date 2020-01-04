@@ -34,14 +34,6 @@ html, body {
     color: black;
 }
 
-#memoryContainer img {
-    width: 100px;
-}
-.removed {
-    visibility: hidden;
-}
-
-
 .icon {
     width: 35px;
     height: 35px;

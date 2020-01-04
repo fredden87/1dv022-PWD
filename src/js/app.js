@@ -9,8 +9,8 @@ document.querySelector('#webcam').addEventListener('click', startWebcam)
 function startMemory () {
   const windowHandler = document.createElement('window-handler')
   document.querySelector('#container').prepend(windowHandler)
-  const template = document.querySelector('#memory-template')
-  const container = template.content.cloneNode(true)
+  const template = document.querySelector('#memory-template').content.firstElementChild
+  const container = template.cloneNode(true)
   Memory(2, 2, container)
   windowHandler.component = container
 }

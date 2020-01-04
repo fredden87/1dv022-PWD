@@ -29,6 +29,12 @@ template.innerHTML = /* html */`
     flex-basis: 15px;
     flex-shrink: 0;
   }
+  #memoryContainer img {
+    width: 100px;
+}
+.removed {
+    visibility: hidden;
+}
 
 </style>
 <div id="app">
@@ -56,7 +62,6 @@ export default class WindowHandler extends window.HTMLElement {
   }
 
   set component (component) {
-    // console.log(component)
     this.shadowRoot.querySelector('#app').appendChild(component)
   }
 

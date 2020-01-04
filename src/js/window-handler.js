@@ -29,7 +29,7 @@ template.innerHTML = /* html */`
     flex-basis: 15px;
     flex-shrink: 0;
   }
-  #memoryContainer img {
+#memoryContainer img {
     width: 100px;
 }
 .removed {

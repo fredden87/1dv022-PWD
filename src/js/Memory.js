@@ -1,4 +1,4 @@
-export default function (rows, cols, container) {
+export default function (rows, cols) {
   let a
   let tiles = []
   let turn1
@@ -8,9 +8,13 @@ export default function (rows, cols, container) {
   let tries = 0
 
   tiles = getPictureArray(rows, cols)
+  const template = document.querySelector('#memory-template')
+  console.log(template)
 
-  container = document.getElementById(container)
-  const template = document.querySelectorAll('#memoryContainer template')[0].content.firstElementChild
+  const container = template.content.cloneNode(true)
+  document.querySelector('body').appendChild(container)
+  console.log('hej', container)
+  // const template = document.querySelectorAll('#memoryContainer template')[0].content.firstElementChild
 
   tiles.forEach(function (tile, index) {
     a = document.importNode(template, true)
@@ -33,7 +37,7 @@ export default function (rows, cols, container) {
       return
     }
 
-    img.src = 'image/' + tile + '.png'
+    img.src = '/image/' + tile + '.png'
 
     if (!turn1) {
       turn1 = img

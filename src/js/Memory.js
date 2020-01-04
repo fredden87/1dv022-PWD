@@ -25,7 +25,7 @@ export default function (rows, cols, container) {
     }
   })
 
-  function turnBrick(tile, img) {
+  function turnBrick (tile, img) {
     if (turn2) {
       return
     }
@@ -66,7 +66,7 @@ export default function (rows, cols, container) {
     }
   }
 
-  function getPictureArray(rows, cols) {
+  function getPictureArray (rows, cols) {
     const array = []
     for (let i = 1; i <= (rows * cols) / 2; i += 1) {
       array.push(i)

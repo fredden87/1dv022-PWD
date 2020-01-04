@@ -86,7 +86,10 @@ export default class WindowHandler extends window.HTMLElement {
   _handelMouseEvents (event) {
     event.preventDefault()
     const close = this.shadowRoot.querySelector('#imgClose')
-    if (event.path[0] !== this && event.path[0] !== close) {
+    const appHeader = this.shadowRoot.querySelector('#appheader')
+    const icon = this.shadowRoot.querySelector('#icon')
+    const name = this.shadowRoot.querySelector('#name')
+    if (event.path[0] === appHeader || event.path[0] === icon || event.path[0] === name) {
       this._updateZindex()
       this.shadowRoot.querySelector('#appheader').style.cursor = 'grabbing'
       // get the mouse cursor position at startup

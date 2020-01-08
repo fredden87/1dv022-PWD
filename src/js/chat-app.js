@@ -1,11 +1,20 @@
 const template = document.createElement('template')
 template.innerHTML = /* html */`
 <style>
+ul{
+  width: 100%;
+}
 li {
-    list-style-type: none;
+  list-style-type: none;
+  z-index: inherit;
 }
 #chat {
-  height: 350px;
+  height: 340px;
+  top: 0;
+  background-color: grey;
+  text-align: left;
+}
+#input {
   background-color: green;
 }
 </style>
@@ -13,7 +22,10 @@ li {
 <ul id="messages">
 </ul>
 </div>
-<div id="footer">hej</div>
+<div id="input">
+<input type="text" id="chatinput" name="chatmessage" value="Mickey">
+<button type="button">Send</button>
+</div>
 `
 
 export default class ChatApp extends window.HTMLElement {

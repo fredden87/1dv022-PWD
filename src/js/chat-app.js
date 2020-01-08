@@ -3,8 +3,7 @@ template.innerHTML = /* html */`
 <style>
 </style>
 <div id="chat">
-<ul id="message">
-<li id="message"></li>
+<ul id="messages">
 </ul>
 </div>
 `
@@ -14,6 +13,7 @@ export default class ChatApp extends window.HTMLElement {
     super()
     this.attachShadow({ mode: 'open' })
     this.shadowRoot.appendChild(template.content.cloneNode(true))
+    this.messages = this.shadowRoot.querySelector('#messages')
     this.socket = new window.WebSocket('ws://vhost3.lnu.se:20080/socket/')
     this.chat = this.shadowRoot.querySelector('#chat')
     this.message = {
@@ -50,8 +50,9 @@ export default class ChatApp extends window.HTMLElement {
   }
 
   receive (event) {
-    console.log(event.data)
-    this.shadowRoot.querySelector('#message').innerText = event.data
+    const li = document.createElement('li')
+    li.appendChild(document.createTextNode(event.data))
+    this.messages.appendChild(li)
   }
 }
 

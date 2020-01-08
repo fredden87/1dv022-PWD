@@ -66,6 +66,9 @@ export default class ChatApp extends window.HTMLElement {
     this.chatMessage.addEventListener('click', (event) => {
       this.chatMessage.focus()
     })
+    this.chatMessage.addEventListener('keyup', (event) => {
+      if (event.keyCode === 13) { this._send() }
+    })
   }
 
   disconnectedCallback () {
@@ -81,11 +84,12 @@ export default class ChatApp extends window.HTMLElement {
   }
 
   _receive (event) {
-    const li = document.createElement('li')
-    console.log(JSON.parse(event.data))
     const data = JSON.parse(event.data)
-    li.appendChild(document.createTextNode(`${data.username}: ${data.data}`))
-    this.chatMessages.appendChild(li)
+    if (data.type === 'message' || data.type === 'notification') {
+      const li = document.createElement('li')
+      li.appendChild(document.createTextNode(`${data.username}: ${data.data}`))
+      this.chatMessages.appendChild(li)
+    }
   }
 
   _send (event) {
@@ -93,7 +97,6 @@ export default class ChatApp extends window.HTMLElement {
     if (message) {
       this.chatMessage.value = ''
       this.chatObj.data = message
-      console.log(this.chatObj)
       this.socket.send(JSON.stringify(this.chatObj))
     }
   }

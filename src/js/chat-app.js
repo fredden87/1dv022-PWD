@@ -6,7 +6,6 @@ ul{
 }
 li {
   list-style-type: none;
-  z-index: inherit;
 }
 #chat {
   height: 340px;
@@ -17,14 +16,15 @@ li {
 #input {
   background-color: green;
 }
+
 </style>
 <div id="chat">
 <ul id="messages">
 </ul>
 </div>
 <div id="input">
-<input type="text" id="chatinput" name="chatmessage" value="Mickey">
-<button type="button">Send</button>
+<input type="text" id="chatinput" name="chatmessage">
+<button type="button" id="send">Send</button>
 </div>
 `
 
@@ -33,8 +33,19 @@ export default class ChatApp extends window.HTMLElement {
     super()
     this.attachShadow({ mode: 'open' })
     this.shadowRoot.appendChild(template.content.cloneNode(true))
-    this.messages = this.shadowRoot.querySelector('#messages')
     this.socket = new window.WebSocket('ws://vhost3.lnu.se:20080/socket/')
+  }
+
+  static get observedAttributes () {
+    return ['text']
+  }
+
+  attributeChangedCallback (name, oldValue, newValue) {
+
+  }
+
+  connectedCallback () {
+    this.messages = this.shadowRoot.querySelector('#messages')
     this.chat = this.shadowRoot.querySelector('#chat')
     this.message = {
       type: 'message',
@@ -47,18 +58,10 @@ export default class ChatApp extends window.HTMLElement {
     this.socket.addEventListener('message', (event) => {
       this.receive(event)
     })
-  }
-
-  static get observedAttributes () {
-    return ['text']
-  }
-
-  attributeChangedCallback (name, oldValue, newValue) {
-
-  }
-
-  connectedCallback () {
-
+    this.shadowRoot.querySelector('#send').addEventListener('click', this.send)
+    this.shadowRoot.querySelector('#chatinput').addEventListener('click', (event) => {
+      this.shadowRoot.querySelector('#chatinput').focus()
+    })
   }
 
   _updateRendering () {
@@ -75,6 +78,10 @@ export default class ChatApp extends window.HTMLElement {
     const data = JSON.parse(event.data)
     li.appendChild(document.createTextNode(`${data.username}: ${data.data}`))
     this.messages.appendChild(li)
+  }
+
+  send (event) {
+    console.log('clocked')
   }
 }
 

@@ -4,11 +4,16 @@ template.innerHTML = /* html */`
 li {
     list-style-type: none;
 }
+#chat {
+  height: 350px;
+  background-color: green;
+}
 </style>
 <div id="chat">
 <ul id="messages">
 </ul>
 </div>
+<div id="footer">hej</div>
 `
 
 export default class ChatApp extends window.HTMLElement {
@@ -54,7 +59,9 @@ export default class ChatApp extends window.HTMLElement {
 
   receive (event) {
     const li = document.createElement('li')
-    li.appendChild(document.createTextNode(event.data))
+    console.log(JSON.parse(event.data))
+    const data = JSON.parse(event.data)
+    li.appendChild(document.createTextNode(`${data.username}: ${data.data}`))
     this.messages.appendChild(li)
   }
 }

@@ -86,6 +86,9 @@ export default class ChatApp extends window.HTMLElement {
   _receive (event) {
     const data = JSON.parse(event.data)
     if (data.type === 'message' || data.type === 'notification') {
+      if (this.chatMessages.childNodes.length > 19) {
+        this.chatMessages.removeChild(this.chatMessages.childNodes[1])
+      }
       const li = document.createElement('li')
       li.appendChild(document.createTextNode(`${data.username}: ${data.data}`))
       this.chatMessages.appendChild(li)

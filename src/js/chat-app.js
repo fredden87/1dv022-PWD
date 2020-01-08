@@ -45,12 +45,14 @@ export default class ChatApp extends window.HTMLElement {
   }
 
   connectedCallback () {
-    this.messages = this.shadowRoot.querySelector('#messages')
+    this.chatMessages = this.shadowRoot.querySelector('#messages')
+    this.chatMessage = this.shadowRoot.querySelector('#chatinput')
+    this.chatSend = this.shadowRoot.querySelector('#send')
     this.chat = this.shadowRoot.querySelector('#chat')
-    this.message = {
+    this.chatObj = {
       type: 'message',
       data: 'The message text is sent using the data property',
-      username: 'Anon',
+      username: 'Linus Torvalds',
       channel: 'my, not so secret, channel',
       key: 'eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd'
     }
@@ -58,10 +60,16 @@ export default class ChatApp extends window.HTMLElement {
     this.socket.addEventListener('message', (event) => {
       this._receive(event)
     })
-    this.shadowRoot.querySelector('#send').addEventListener('click', this._send)
-    this.shadowRoot.querySelector('#chatinput').addEventListener('click', (event) => {
-      this.shadowRoot.querySelector('#chatinput').focus()
+    this.chatSend.addEventListener('click', (event) => {
+      this._send()
     })
+    this.chatMessage.addEventListener('click', (event) => {
+      this.chatMessage.focus()
+    })
+  }
+
+  disconnectedCallback () {
+    this.socket.close()
   }
 
   _updateRendering () {
@@ -77,11 +85,17 @@ export default class ChatApp extends window.HTMLElement {
     console.log(JSON.parse(event.data))
     const data = JSON.parse(event.data)
     li.appendChild(document.createTextNode(`${data.username}: ${data.data}`))
-    this.messages.appendChild(li)
+    this.chatMessages.appendChild(li)
   }
 
   _send (event) {
-    console.log('clocked')
+    const message = this.chatMessage.value
+    if (message) {
+      this.chatMessage.value = ''
+      this.chatObj.data = message
+      console.log(this.chatObj)
+      this.socket.send(JSON.stringify(this.chatObj))
+    }
   }
 }
 

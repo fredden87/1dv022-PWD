@@ -3,18 +3,19 @@ template.innerHTML = /* html */`
 <style>
 ul{
   width: 100%;
+  padding-left: 0;
 }
 li {
   list-style-type: none;
 }
 #chat {
-  height: 340px;
+  height: 395px;
   top: 0;
   background-color: grey;
   text-align: left;
 }
 #input {
-  background-color: green;
+  background-color: #2196F3;
 }
 
 </style>
@@ -23,7 +24,8 @@ li {
 </ul>
 </div>
 <div id="input">
-<input type="text" id="chatinput" name="chatmessage">
+<textarea rows="2" cols="50" id="chatinput" name="chatmessage">
+</textarea>
 <button type="button" id="send">Send</button>
 </div>
 `
@@ -86,11 +88,11 @@ export default class ChatApp extends window.HTMLElement {
   _receive (event) {
     const data = JSON.parse(event.data)
     if (data.type === 'message' || data.type === 'notification') {
-      if (this.chatMessages.childNodes.length > 19) {
+      if (this.chatMessages.childNodes.length === 23) {
         this.chatMessages.removeChild(this.chatMessages.childNodes[1])
       }
       const li = document.createElement('li')
-      li.appendChild(document.createTextNode(`${data.username}: ${data.data}`))
+      li.appendChild(document.createTextNode(`${this._time()} ${data.username}: ${data.data}`))
       this.chatMessages.appendChild(li)
     }
   }
@@ -102,6 +104,12 @@ export default class ChatApp extends window.HTMLElement {
       this.chatObj.data = message
       this.socket.send(JSON.stringify(this.chatObj))
     }
+  }
+
+  _time () {
+    const date = new Date()
+    const time = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+    return time
   }
 }
 

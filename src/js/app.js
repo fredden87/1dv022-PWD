@@ -11,7 +11,7 @@ function startMemory () {
   document.querySelector('#container').prepend(windowHandler)
   const template = document.querySelector('#memory-template').content.firstElementChild
   const container = template.cloneNode(true)
-  Memory(2, 2, container)
+  Memory(4, 4, container)
   windowHandler.component = container
 }
 

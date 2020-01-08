@@ -1,6 +1,9 @@
 const template = document.createElement('template')
 template.innerHTML = /* html */`
 <style>
+li {
+    list-style-type: none;
+}
 </style>
 <div id="chat">
 <ul id="messages">

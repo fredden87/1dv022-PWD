@@ -3,7 +3,9 @@ template.innerHTML = /* html */`
 <style>
 </style>
 <div id="chat">
-hej
+<ul id="message">
+<li id="message"></li>
+</ul>
 </div>
 `
 
@@ -12,7 +14,8 @@ export default class ChatApp extends window.HTMLElement {
     super()
     this.attachShadow({ mode: 'open' })
     this.shadowRoot.appendChild(template.content.cloneNode(true))
-    this.socket = new WebSocket('ws://vhost3.lnu.se:20080/socket/')
+    this.socket = new window.WebSocket('ws://vhost3.lnu.se:20080/socket/')
+    this.chat = this.shadowRoot.querySelector('#chat')
     this.message = {
       type: 'message',
       data: 'The message text is sent using the data property',
@@ -20,11 +23,10 @@ export default class ChatApp extends window.HTMLElement {
       channel: 'my, not so secret, channel',
       key: 'eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd'
     }
-    this.socket.addEventListener('open', function (event) {
-      console.log(event)
+    this.socket.addEventListener('open', this.connected)
+    this.socket.addEventListener('message', (event) => {
+      this.receive(event)
     })
-
-    this.socket.addEventListener('message', this.receive(this.event))
   }
 
   static get observedAttributes () {
@@ -43,8 +45,13 @@ export default class ChatApp extends window.HTMLElement {
 
   }
 
+  connected (event) {
+    console.log('connected')
+  }
+
   receive (event) {
-    console.log(this.data)
+    console.log(event.data)
+    this.shadowRoot.querySelector('#message').innerText = event.data
   }
 }
 

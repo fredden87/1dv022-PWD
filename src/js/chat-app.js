@@ -54,11 +54,11 @@ export default class ChatApp extends window.HTMLElement {
       channel: 'my, not so secret, channel',
       key: 'eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd'
     }
-    this.socket.addEventListener('open', this.connected)
+    this.socket.addEventListener('open', this._connected)
     this.socket.addEventListener('message', (event) => {
-      this.receive(event)
+      this._receive(event)
     })
-    this.shadowRoot.querySelector('#send').addEventListener('click', this.send)
+    this.shadowRoot.querySelector('#send').addEventListener('click', this._send)
     this.shadowRoot.querySelector('#chatinput').addEventListener('click', (event) => {
       this.shadowRoot.querySelector('#chatinput').focus()
     })
@@ -68,11 +68,11 @@ export default class ChatApp extends window.HTMLElement {
 
   }
 
-  connected (event) {
+  _connected (event) {
     console.log('connected')
   }
 
-  receive (event) {
+  _receive (event) {
     const li = document.createElement('li')
     console.log(JSON.parse(event.data))
     const data = JSON.parse(event.data)
@@ -80,7 +80,7 @@ export default class ChatApp extends window.HTMLElement {
     this.messages.appendChild(li)
   }
 
-  send (event) {
+  _send (event) {
     console.log('clocked')
   }
 }

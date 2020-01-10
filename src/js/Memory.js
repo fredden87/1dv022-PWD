@@ -26,7 +26,6 @@ export default function (rows, cols, container) {
     const img = event.target.nodeName === 'IMG' ? event.target : event.target.firstElementChild
     const index = parseInt(img.getAttribute('data-bricknumber'))
     turnBrick(tiles[index], img)
-    console.log(tiles[index])
   })
 
   function turnBrick (tile, img) {

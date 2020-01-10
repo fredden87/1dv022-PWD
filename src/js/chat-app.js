@@ -9,13 +9,16 @@ li {
   list-style-type: none;
 }
 #chat {
-  height: 395px;
+  height: 400px;
   top: 0;
   background-color: grey;
   text-align: left;
+  overflow: auto;
 }
 #input {
+  padding-top: 10px;
   background-color: #2196F3;
+  height: 80px;
 }
 
 </style>
@@ -24,7 +27,7 @@ li {
 </ul>
 </div>
 <div id="input">
-<textarea rows="2" cols="50" id="chatinput" name="chatmessage">
+<textarea rows="3" cols="50" id="chatinput" name="chatmessage">
 </textarea>
 <button type="button" id="send">Send</button>
 </div>
@@ -88,7 +91,7 @@ export default class ChatApp extends window.HTMLElement {
   _receive (event) {
     const data = JSON.parse(event.data)
     if (data.type === 'message' || data.type === 'notification') {
-      if (this.chatMessages.childNodes.length === 23) {
+      if (this.chatMessages.childNodes.length === 50) {
         this.chatMessages.removeChild(this.chatMessages.childNodes[1])
       }
       const li = document.createElement('li')
@@ -99,10 +102,12 @@ export default class ChatApp extends window.HTMLElement {
 
   _send (event) {
     const message = this.chatMessage.value
-    if (message) {
+    if (message.length > 1) {
       this.chatMessage.value = ''
       this.chatObj.data = message
       this.socket.send(JSON.stringify(this.chatObj))
+    } else {
+      this.chatMessage.value = ''
     }
   }
 

@@ -12,17 +12,21 @@ export default function (rows, cols, container) {
   tiles.forEach(function (tile, index) {
     a = document.importNode(bricks, true)
 
-    container.appendChild(a)
+    a.firstElementChild.setAttribute('data-bricknumber', index)
 
-    a.addEventListener('click', function (event) {
-      event.preventDefault()
-      const img = event.target.nodeName === 'IMG' ? event.target : event.target.firstElementChild
-      turnBrick(tile, img)
-    })
+    container.appendChild(a)
 
     if ((index + 1) % cols === 0) {
       container.appendChild(document.createElement('br'))
     }
+  })
+
+  container.addEventListener('click', function (event) {
+    event.preventDefault()
+    const img = event.target.nodeName === 'IMG' ? event.target : event.target.firstElementChild
+    const index = parseInt(img.getAttribute('data-bricknumber'))
+    turnBrick(tiles[index], img)
+    console.log(tiles[index])
   })
 
   function turnBrick (tile, img) {

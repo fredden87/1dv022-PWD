@@ -3,6 +3,7 @@ template.innerHTML = /* html */`
 <style>
 ul{
   width: 100%;
+  margin-top: 0;
   padding-left: 0;
 }
 li {
@@ -16,9 +17,10 @@ li {
   overflow: auto;
 }
 #input {
-  padding-top: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   background-color: #2196F3;
-  height: 80px;
+  height: 100%;
 }
 
 </style>
@@ -27,7 +29,7 @@ li {
 </ul>
 </div>
 <div id="input">
-<textarea rows="3" cols="50" id="chatinput" name="chatmessage">
+<textarea rows="2" cols="50" id="chatinput" name="chatmessage">
 </textarea>
 <button type="button" id="send">Send</button>
 </div>

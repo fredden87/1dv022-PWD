@@ -4,6 +4,7 @@ template.innerHTML = /* html */`
 ul{
   width: 100%;
   margin-top: 0;
+  margin-bottom: 0;
   padding-left: 0;
 }
 li {
@@ -40,6 +41,17 @@ export default class ChatApp extends window.HTMLElement {
     super()
     this.attachShadow({ mode: 'open' })
     this.shadowRoot.appendChild(template.content.cloneNode(true))
+    this.chatMessages = this.shadowRoot.querySelector('#messages')
+    this.chatMessage = this.shadowRoot.querySelector('#chatinput')
+    this.chatSend = this.shadowRoot.querySelector('#send')
+    this.chat = this.shadowRoot.querySelector('#chat')
+    this.chatObj = {
+      type: 'message',
+      data: 'The message text is sent using the data property',
+      username: 'Linus Torvalds',
+      channel: 'my, not so secret, channel',
+      key: 'eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd'
+    }
     this.socket = new window.WebSocket('ws://vhost3.lnu.se:20080/socket/')
   }
 
@@ -52,17 +64,6 @@ export default class ChatApp extends window.HTMLElement {
   }
 
   connectedCallback () {
-    this.chatMessages = this.shadowRoot.querySelector('#messages')
-    this.chatMessage = this.shadowRoot.querySelector('#chatinput')
-    this.chatSend = this.shadowRoot.querySelector('#send')
-    this.chat = this.shadowRoot.querySelector('#chat')
-    this.chatObj = {
-      type: 'message',
-      data: 'The message text is sent using the data property',
-      username: 'Linus Torvalds',
-      channel: 'my, not so secret, channel',
-      key: 'eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd'
-    }
     this.socket.addEventListener('open', this._connected)
     this.socket.addEventListener('message', (event) => {
       this._receive(event)
@@ -99,6 +100,7 @@ export default class ChatApp extends window.HTMLElement {
       const li = document.createElement('li')
       li.appendChild(document.createTextNode(`${this._time()} ${data.username}: ${data.data}`))
       this.chatMessages.appendChild(li)
+      this.chat.scrollTop = this.chat.scrollHeight
     }
   }
 

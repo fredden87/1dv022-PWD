@@ -1,4 +1,4 @@
-let zIndex = 0
+let _zIndex = 0
 const template = document.createElement('template')
 template.innerHTML = /* html */`
 <style>
@@ -54,11 +54,11 @@ export default class WindowHandler extends window.HTMLElement {
   }
 
   static get zIndex () {
-    return zIndex
+    return _zIndex
   }
 
   static set zIndex (value) {
-    zIndex += value
+    _zIndex += value
   }
 
   set component (component) {
@@ -130,8 +130,8 @@ export default class WindowHandler extends window.HTMLElement {
   }
 
   _updateZindex () {
-    this.style.zIndex = zIndex
-    zIndex++
+    this.style.zIndex = _zIndex
+    _zIndex++
   }
 
   _focusWindow () {

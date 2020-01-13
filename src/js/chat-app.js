@@ -41,18 +41,18 @@ export default class ChatApp extends window.HTMLElement {
     super()
     this.attachShadow({ mode: 'open' })
     this.shadowRoot.appendChild(template.content.cloneNode(true))
-    this.chatMessages = this.shadowRoot.querySelector('#messages')
-    this.chatMessage = this.shadowRoot.querySelector('#chatinput')
-    this.chatSend = this.shadowRoot.querySelector('#send')
-    this.chat = this.shadowRoot.querySelector('#chat')
-    this.chatObj = {
+    this._chatMessages = this.shadowRoot.querySelector('#messages')
+    this._chatMessage = this.shadowRoot.querySelector('#chatinput')
+    this._chatSend = this.shadowRoot.querySelector('#send')
+    this._chat = this.shadowRoot.querySelector('#chat')
+    this._chatObj = {
       type: 'message',
       data: 'The message text is sent using the data property',
       username: 'Linus Torvalds',
       channel: 'my, not so secret, channel',
       key: 'eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd'
     }
-    this.socket = new window.WebSocket('ws://vhost3.lnu.se:20080/socket/')
+    this._socket = new window.WebSocket('ws://vhost3.lnu.se:20080/socket/')
   }
 
   static get observedAttributes () {
@@ -64,23 +64,23 @@ export default class ChatApp extends window.HTMLElement {
   }
 
   connectedCallback () {
-    this.socket.addEventListener('open', this._connected)
-    this.socket.addEventListener('message', (event) => {
+    this._socket.addEventListener('open', this._connected)
+    this._socket.addEventListener('message', (event) => {
       this._receive(event)
     })
-    this.chatSend.addEventListener('click', (event) => {
+    this._chatSend.addEventListener('click', (event) => {
       this._send()
     })
-    this.chatMessage.addEventListener('click', (event) => {
-      this.chatMessage.focus()
+    this._chatMessage.addEventListener('click', (event) => {
+      this._chatMessage.focus()
     })
-    this.chatMessage.addEventListener('keyup', (event) => {
+    this._chatMessage.addEventListener('keyup', (event) => {
       if (event.keyCode === 13) { this._send() }
     })
   }
 
   disconnectedCallback () {
-    this.socket.close()
+    this._socket.close()
   }
 
   _updateRendering () {
@@ -94,24 +94,24 @@ export default class ChatApp extends window.HTMLElement {
   _receive (event) {
     const data = JSON.parse(event.data)
     if (data.type === 'message' || data.type === 'notification') {
-      if (this.chatMessages.childNodes.length === 50) {
-        this.chatMessages.removeChild(this.chatMessages.childNodes[1])
+      if (this._chatMessages.childNodes.length === 50) {
+        this._chatMessages.removeChild(this._chatMessages.childNodes[1])
       }
       const li = document.createElement('li')
       li.appendChild(document.createTextNode(`${this._time()} ${data.username}: ${data.data}`))
-      this.chatMessages.appendChild(li)
-      this.chat.scrollTop = this.chat.scrollHeight
+      this._chatMessages.appendChild(li)
+      this._chat.scrollTop = this._chat.scrollHeight
     }
   }
 
   _send (event) {
-    const message = this.chatMessage.value
+    const message = this._chatMessage.value
     if (message.length > 1) {
-      this.chatMessage.value = ''
-      this.chatObj.data = message
-      this.socket.send(JSON.stringify(this.chatObj))
+      this._chatMessage.value = ''
+      this._chatObj.data = message
+      this._socket.send(JSON.stringify(this._chatObj))
     } else {
-      this.chatMessage.value = ''
+      this._chatMessage.value = ''
     }
   }
 

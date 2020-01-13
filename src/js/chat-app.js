@@ -66,10 +66,10 @@ export default class ChatApp extends window.HTMLElement {
   }
 
   connectedCallback () {
-    if (!window.localStorage.getItem('name')) {
+    if (!window.localStorage.getItem('username')) {
       this._setUserNameInput()
     } else {
-      this._chatObj.username = window.localStorage.getItem('name')
+      this._chatObj.username = window.localStorage.getItem('username')
     }
     this._socket.addEventListener('open', this._connected)
     this._socket.addEventListener('message', (event) => {
@@ -116,7 +116,7 @@ export default class ChatApp extends window.HTMLElement {
     if (this._hasUsername === false) {
       const username = this._chatMessage.value
       if (username.length > 0) {
-        window.localStorage.setItem('name', this._chatMessage.value)
+        window.localStorage.setItem('username', this._chatMessage.value)
         this._chatMessage.value = ''
         this._chatObj.username = username
         this._removeUserNameInput()

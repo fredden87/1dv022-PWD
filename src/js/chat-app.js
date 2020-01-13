@@ -45,10 +45,12 @@ export default class ChatApp extends window.HTMLElement {
     this._chatMessage = this.shadowRoot.querySelector('#chatinput')
     this._chatSend = this.shadowRoot.querySelector('#send')
     this._chat = this.shadowRoot.querySelector('#chat')
+    this._hasUsername = true
+    this._name = ''
     this._chatObj = {
       type: 'message',
       data: 'The message text is sent using the data property',
-      username: 'Linus Torvalds',
+      username: '',
       channel: 'my, not so secret, channel',
       key: 'eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd'
     }
@@ -64,6 +66,11 @@ export default class ChatApp extends window.HTMLElement {
   }
 
   connectedCallback () {
+    if (!window.localStorage.getItem('name')) {
+      this._setUserNameInput()
+    } else {
+      this._chatObj.username = window.localStorage.getItem('name')
+    }
     this._socket.addEventListener('open', this._connected)
     this._socket.addEventListener('message', (event) => {
       this._receive(event)
@@ -105,13 +112,24 @@ export default class ChatApp extends window.HTMLElement {
   }
 
   _send (event) {
-    const message = this._chatMessage.value
-    if (message.length > 1) {
-      this._chatMessage.value = ''
-      this._chatObj.data = message
-      this._socket.send(JSON.stringify(this._chatObj))
+    // Set username, else chat
+    if (this._hasUsername === false) {
+      const username = this._chatMessage.value
+      if (username.length > 0) {
+        window.localStorage.setItem('name', this._chatMessage.value)
+        this._chatMessage.value = ''
+        this._chatObj.username = username
+        this._removeUserNameInput()
+      }
     } else {
-      this._chatMessage.value = ''
+      const message = this._chatMessage.value
+      if (message.length > 1) {
+        this._chatMessage.value = ''
+        this._chatObj.data = message
+        this._socket.send(JSON.stringify(this._chatObj))
+      } else {
+        this._chatMessage.value = ''
+      }
     }
   }
 
@@ -119,6 +137,20 @@ export default class ChatApp extends window.HTMLElement {
     const date = new Date()
     const time = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
     return time
+  }
+
+  _setUserNameInput () {
+    this._hasUsername = false
+    this._chatSend.textContent = 'Set username'
+    const p = document.createElement('p')
+    p.textContent = 'Enter username below!'
+    this.shadowRoot.querySelector('#input').prepend(p)
+  }
+
+  _removeUserNameInput () {
+    this.shadowRoot.querySelector('#input').removeChild(this.shadowRoot.querySelector('#input').firstChild)
+    this._chatSend.textContent = 'Chat'
+    this._hasUsername = true
   }
 }
 

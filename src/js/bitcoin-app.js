@@ -17,11 +17,22 @@ li {
   text-align: left;
   overflow: auto;
 }
+#buttom {
+  padding-top: 10px;
+  background-color: #2196F3;
+  height: 100%;
+}
+#total {
+    padding-top: 10px;
+}
 </style>
 <div id="bitcoin">
 <ul id="messages">
 </ul>
-<div id="info"></div>
+</div>
+<div id="buttom">
+<div id="price">Bitcoin price: </div>
+<div id="total">Total transfered since start: </div>
 </div>
 `
 
@@ -32,6 +43,9 @@ export default class BitcoinApp extends window.HTMLElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true))
     this._bitcoin = this.shadowRoot.querySelector('#bitcoin')
     this._bitcoinMessages = this.shadowRoot.querySelector('#messages')
+    this._info = this.shadowRoot.querySelector('#info')
+    this._price = this.shadowRoot.querySelector('#price')
+    this._total = this.shadowRoot.querySelector('#total')
     this._socket = new window.WebSocket('wss://ws.blockchain.info/inv')
   }
 
@@ -44,6 +58,7 @@ export default class BitcoinApp extends window.HTMLElement {
   }
 
   connectedCallback () {
+    this._getBitcoinPrice()
     this._socket.addEventListener('open', (event) => {
       this._connected()
     })
@@ -61,6 +76,7 @@ export default class BitcoinApp extends window.HTMLElement {
   }
 
   _connected (event) {
+    console.log('connected')
     this._socket.send(JSON.stringify({ op: 'unconfirmed_sub' }))
   }
 
@@ -79,6 +95,13 @@ export default class BitcoinApp extends window.HTMLElement {
         this._bitcoin.scrollTop = this._bitcoin.scrollHeight
       }
     })
+  }
+
+  async _getBitcoinPrice () {
+    const url = 'https://api.coindesk.com/v1/bpi/currentprice/SEK.json'
+    const req = await window.fetch(url)
+    const json = await req.json()
+    console.log(json)
   }
 }
 window.customElements.define('bitcoin-app', BitcoinApp)

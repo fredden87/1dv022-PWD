@@ -4,7 +4,7 @@ template.innerHTML = /* html */`
 <style>
   
 #app {
-    background-color: #f1f1f1;
+    background-color: white;
     text-align: center;
   }
 

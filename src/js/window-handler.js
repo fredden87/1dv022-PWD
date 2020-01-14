@@ -76,7 +76,6 @@ export default class WindowHandler extends window.HTMLElement {
   }
 
   set name (name) {
-    console.log(name)
     this.shadowRoot.querySelector('#name').textContent = name
   }
 

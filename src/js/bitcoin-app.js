@@ -43,8 +43,6 @@ export default class BitcoinApp extends window.HTMLElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true))
     this._bitcoin = this.shadowRoot.querySelector('#bitcoin')
     this._bitcoinMessages = this.shadowRoot.querySelector('#messages')
-    this._info = this.shadowRoot.querySelector('#info')
-    this._price = this.shadowRoot.querySelector('#price')
     this._total = this.shadowRoot.querySelector('#total')
     this._totalBitcoins = 0
     this._socket = new window.WebSocket('wss://ws.blockchain.info/inv')
@@ -102,7 +100,7 @@ export default class BitcoinApp extends window.HTMLElement {
     const url = 'https://api.coindesk.com/v1/bpi/currentprice/SEK.json'
     const req = await window.fetch(url)
     const json = await req.json()
-    this._price.textContent = `Bitcoin price: ${json.bpi.SEK.rate} SEK`
+    this.shadowRoot.querySelector('#price').textContent = `Bitcoin price: ${json.bpi.SEK.rate} SEK`
   }
 }
 window.customElements.define('bitcoin-app', BitcoinApp)

@@ -48,7 +48,6 @@ export default class ChatApp extends window.HTMLElement {
     this._chat = this.shadowRoot.querySelector('#chat')
     this._changeUsername = this.shadowRoot.querySelector('#changeusername')
     this._hasUsername = true
-    this._name = ''
     this._chatObj = {
       type: 'message',
       data: 'The message text is sent using the data property',

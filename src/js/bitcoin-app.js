@@ -56,12 +56,14 @@ export default class BitcoinApp extends window.HTMLElement {
   }
 
   _receive (event) {
+    // const baseNumber = 0.00000000
     const data = JSON.parse(event.data)
+    const value = Number(data.x.out[0].value + 'e-8')
     if (this._bitcoinMessages.childNodes.length === 50) {
       this._bitcoinMessages.removeChild(this._bitcoinMessages.childNodes[1])
     }
     const li = document.createElement('li')
-    li.appendChild(document.createTextNode(`${data}`))
+    li.appendChild(document.createTextNode(`${value}`))
     this._bitcoinMessages.appendChild(li)
     this._chat.scrollTop = this._chat.scrollHeight
   }

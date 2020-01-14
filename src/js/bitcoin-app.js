@@ -10,6 +10,13 @@ ul{
 li {
   list-style-type: none;
 }
+#bitcoin {
+  height: 400px;
+  top: 0;
+  background-color: white;
+  text-align: left;
+  overflow: auto;
+}
 </style>
 <div id="bitcoin">
 <ul id="messages">
@@ -22,6 +29,7 @@ export default class BitcoinApp extends window.HTMLElement {
     super()
     this.attachShadow({ mode: 'open' })
     this.shadowRoot.appendChild(template.content.cloneNode(true))
+    this._bitcoin = this.shadowRoot.querySelector('#bitcoin')
     this._bitcoinMessages = this.shadowRoot.querySelector('#messages')
     this._socket = new window.WebSocket('wss://ws.blockchain.info/inv')
   }
@@ -56,16 +64,19 @@ export default class BitcoinApp extends window.HTMLElement {
   }
 
   _receive (event) {
-    // const baseNumber = 0.00000000
     const data = JSON.parse(event.data)
     const value = Number(data.x.out[0].value + 'e-8')
-    if (this._bitcoinMessages.childNodes.length === 50) {
-      this._bitcoinMessages.removeChild(this._bitcoinMessages.childNodes[1])
+    if (value > 0) {
+      console.log(data.x.out)
+      console.log(value)
+      if (this._bitcoinMessages.childNodes.length === 50) {
+        this._bitcoinMessages.removeChild(this._bitcoinMessages.childNodes[1])
+      }
+      const li = document.createElement('li')
+      li.appendChild(document.createTextNode(`${value}`))
+      this._bitcoinMessages.appendChild(li)
+      this._bitcoin.scrollTop = this._bitcoin.scrollHeight
     }
-    const li = document.createElement('li')
-    li.appendChild(document.createTextNode(`${value}`))
-    this._bitcoinMessages.appendChild(li)
-    this._chat.scrollTop = this._chat.scrollHeight
   }
 }
 window.customElements.define('bitcoin-app', BitcoinApp)

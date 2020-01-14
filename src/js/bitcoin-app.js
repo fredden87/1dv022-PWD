@@ -102,7 +102,6 @@ export default class BitcoinApp extends window.HTMLElement {
     const url = 'https://api.coindesk.com/v1/bpi/currentprice/SEK.json'
     const req = await window.fetch(url)
     const json = await req.json()
-    console.log(json.bpi.SEK.rate)
     this._price.textContent = `Bitcoin price: ${json.bpi.SEK.rate} SEK`
   }
 }

@@ -25,6 +25,10 @@ template.innerHTML = /* html */`
   cursor: pointer;
 }
 
+#icon img {
+  width: 100%;
+}
+
 .aside {
     flex-basis: 15px;
     flex-shrink: 0;
@@ -39,8 +43,8 @@ template.innerHTML = /* html */`
 </style>
 <div id="app">
 <div id="appheader">
-<div id="icon" class="aside">I</div>
-<div id="name">App</div>
+<div id="icon" class="aside"></div>
+<div id="name"></div>
 <div id="close" class="aside"><img src="/image/cancel.svg" id="imgClose" alt="cancel"></div>
 </div>
 </div>
@@ -63,6 +67,17 @@ export default class WindowHandler extends window.HTMLElement {
 
   set component (component) {
     this.shadowRoot.querySelector('#app').appendChild(component)
+  }
+
+  set icon (path) {
+    const img = document.createElement('IMG')
+    img.src = path
+    this.shadowRoot.querySelector('#icon').appendChild(img)
+  }
+
+  set name (name) {
+    console.log(name)
+    this.shadowRoot.querySelector('#name').textContent = name
   }
 
   static get observedAttributes () {

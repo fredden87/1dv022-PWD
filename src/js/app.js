@@ -5,7 +5,7 @@ import Memory from './Memory.js'
 
 document.querySelector('#memory').addEventListener('click', startMemory)
 document.querySelector('#chat').addEventListener('click', startChat)
-document.querySelector('#bitcoin').addEventListener('click', startWebcam)
+document.querySelector('#bitcoin').addEventListener('click', startBitcoin)
 
 function startMemory () {
   const windowHandler = document.createElement('window-handler')
@@ -13,16 +13,22 @@ function startMemory () {
   const template = document.querySelector('#memory-template').content.firstElementChild
   const container = template.cloneNode(true)
   Memory(4, 4, container)
+  windowHandler.icon = '/image/memory.svg'
+  windowHandler.name = 'Memory'
   windowHandler.component = container
 }
 
 function startChat () {
   const windowHandler = document.createElement('window-handler')
   document.querySelector('#container').prepend(windowHandler)
+  windowHandler.icon = '/image/chat.svg'
+  windowHandler.name = 'Chat'
   windowHandler.component = document.createElement('chat-app')
 }
-function startWebcam () {
+function startBitcoin () {
   const windowHandler = document.createElement('window-handler')
   document.querySelector('#container').prepend(windowHandler)
+  windowHandler.icon = '/image/bitcoin.svg'
+  windowHandler.name = 'Bitcoin'
   windowHandler.component = document.createElement('bitcoin-app')
 }

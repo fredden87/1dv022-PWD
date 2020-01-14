@@ -45,6 +45,8 @@ export default function (rows, cols, container) {
 
       tries += 1
       turn2 = img
+      console.log('Winner! you won on ' + tries)
+      container.appendChild(document.createElement('p').textContent = tries)
 
       if (tile === lastTile) {
         pairs += 1

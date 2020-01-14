@@ -33,6 +33,7 @@ li {
 <textarea rows="2" cols="50" id="chatinput" name="chatmessage">
 </textarea>
 <button type="button" id="send">Send</button>
+<button type="button" id="changeusername">Change username</button>
 </div>
 `
 
@@ -45,6 +46,7 @@ export default class ChatApp extends window.HTMLElement {
     this._chatMessage = this.shadowRoot.querySelector('#chatinput')
     this._chatSend = this.shadowRoot.querySelector('#send')
     this._chat = this.shadowRoot.querySelector('#chat')
+    this._changeUsername = this.shadowRoot.querySelector('#changeusername')
     this._hasUsername = true
     this._name = ''
     this._chatObj = {
@@ -77,6 +79,9 @@ export default class ChatApp extends window.HTMLElement {
     })
     this._chatSend.addEventListener('click', (event) => {
       this._send()
+    })
+    this._changeUsername.addEventListener('click', (event) => {
+      this._setUserNameInput()
     })
     this._chatMessage.addEventListener('click', (event) => {
       this._chatMessage.focus()
@@ -140,14 +145,17 @@ export default class ChatApp extends window.HTMLElement {
   }
 
   _setUserNameInput () {
+    this._changeUsername.disabled = true
+    this._chatMessage.value = ''
     this._hasUsername = false
-    this._chatSend.textContent = 'Set username'
+    this._chatSend.textContent = 'Apply'
     const p = document.createElement('p')
     p.textContent = 'Enter username below!'
     this.shadowRoot.querySelector('#input').prepend(p)
   }
 
   _removeUserNameInput () {
+    this._changeUsername.disabled = false
     this.shadowRoot.querySelector('#input').removeChild(this.shadowRoot.querySelector('#input').firstChild)
     this._chatSend.textContent = 'Chat'
     this._hasUsername = true

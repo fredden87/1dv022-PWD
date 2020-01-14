@@ -1,5 +1,6 @@
 import './window-handler.js'
 import './chat-app.js'
+import './bitcoin-app.js'
 import Memory from './Memory.js'
 
 document.querySelector('#memory').addEventListener('click', startMemory)

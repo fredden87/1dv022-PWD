@@ -100,7 +100,6 @@ export default class ChatApp extends window.HTMLElement {
   }
 
   _connected (event) {
-    console.log('connected')
   }
 
   _receive (event) {

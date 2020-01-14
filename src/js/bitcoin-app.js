@@ -32,7 +32,7 @@ li {
 </div>
 <div id="buttom">
 <div id="price">Bitcoin price: </div>
-<div id="total">Total transfered since start: </div>
+<div id="total">Total transfered: </div>
 </div>
 `
 
@@ -46,6 +46,7 @@ export default class BitcoinApp extends window.HTMLElement {
     this._info = this.shadowRoot.querySelector('#info')
     this._price = this.shadowRoot.querySelector('#price')
     this._total = this.shadowRoot.querySelector('#total')
+    this._totalBitcoins = 0
     this._socket = new window.WebSocket('wss://ws.blockchain.info/inv')
   }
 
@@ -58,7 +59,7 @@ export default class BitcoinApp extends window.HTMLElement {
   }
 
   connectedCallback () {
-    this._getBitcoinPrice()
+    this._setBitcoinPrice()
     this._socket.addEventListener('open', (event) => {
       this._connected()
     })
@@ -76,7 +77,6 @@ export default class BitcoinApp extends window.HTMLElement {
   }
 
   _connected (event) {
-    console.log('connected')
     this._socket.send(JSON.stringify({ op: 'unconfirmed_sub' }))
   }
 
@@ -88,7 +88,8 @@ export default class BitcoinApp extends window.HTMLElement {
         if (this._bitcoinMessages.childNodes.length === 50) {
           this._bitcoinMessages.removeChild(this._bitcoinMessages.childNodes[1])
         }
-        console.log(`${value} ---> ${element.addr}`)
+        this._totalBitcoins = this._totalBitcoins + value
+        this._total.textContent = `Total transfered: ${this._totalBitcoins} BTC`
         const li = document.createElement('li')
         li.appendChild(document.createTextNode(`${value} ---> ${element.addr}`))
         this._bitcoinMessages.appendChild(li)
@@ -97,11 +98,12 @@ export default class BitcoinApp extends window.HTMLElement {
     })
   }
 
-  async _getBitcoinPrice () {
+  async _setBitcoinPrice () {
     const url = 'https://api.coindesk.com/v1/bpi/currentprice/SEK.json'
     const req = await window.fetch(url)
     const json = await req.json()
-    console.log(json)
+    console.log(json.bpi.SEK.rate)
+    this._price.textContent = `Bitcoin price: ${json.bpi.SEK.rate} SEK`
   }
 }
 window.customElements.define('bitcoin-app', BitcoinApp)

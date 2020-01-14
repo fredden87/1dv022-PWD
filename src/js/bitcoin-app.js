@@ -1,6 +1,15 @@
 const template = document.createElement('template')
 template.innerHTML = /* html */`
 <style>
+ul{
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 0;
+}
+li {
+  list-style-type: none;
+}
 </style>
 <div id="bitcoin">
 <ul id="messages">

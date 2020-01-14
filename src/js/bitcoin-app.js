@@ -21,6 +21,7 @@ li {
 <div id="bitcoin">
 <ul id="messages">
 </ul>
+<div id="info"></div>
 </div>
 `
 
@@ -65,18 +66,19 @@ export default class BitcoinApp extends window.HTMLElement {
 
   _receive (event) {
     const data = JSON.parse(event.data)
-    const value = Number(data.x.out[0].value + 'e-8')
-    if (value > 0) {
-      console.log(data.x.out)
-      console.log(value)
-      if (this._bitcoinMessages.childNodes.length === 50) {
-        this._bitcoinMessages.removeChild(this._bitcoinMessages.childNodes[1])
+    data.x.out.forEach(element => {
+      const value = Number(element.value + 'e-8')
+      if (value > 0) {
+        if (this._bitcoinMessages.childNodes.length === 50) {
+          this._bitcoinMessages.removeChild(this._bitcoinMessages.childNodes[1])
+        }
+        console.log(`${value} ---> ${element.addr}`)
+        const li = document.createElement('li')
+        li.appendChild(document.createTextNode(`${value} ---> ${element.addr}`))
+        this._bitcoinMessages.appendChild(li)
+        this._bitcoin.scrollTop = this._bitcoin.scrollHeight
       }
-      const li = document.createElement('li')
-      li.appendChild(document.createTextNode(`${value}`))
-      this._bitcoinMessages.appendChild(li)
-      this._bitcoin.scrollTop = this._bitcoin.scrollHeight
-    }
+    })
   }
 }
 window.customElements.define('bitcoin-app', BitcoinApp)

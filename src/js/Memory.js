@@ -9,6 +9,8 @@ export default function (rows, cols, container) {
 
   tiles = getPictureArray(rows, cols)
   const bricks = document.querySelector('#memory-pic-template').content.firstElementChild
+  const result = document.createElement('p')
+  result.textContent = 'Tries: 0'
   tiles.forEach(function (tile, index) {
     a = document.importNode(bricks, true)
 
@@ -21,6 +23,7 @@ export default function (rows, cols, container) {
     }
   })
 
+  container.appendChild(result)
   container.addEventListener('click', function (event) {
     event.preventDefault()
     const img = event.target.nodeName === 'IMG' ? event.target : event.target.firstElementChild
@@ -45,13 +48,13 @@ export default function (rows, cols, container) {
 
       tries += 1
       turn2 = img
-      console.log('Winner! you won on ' + tries)
-      container.appendChild(document.createElement('p').textContent = tries)
+      result.textContent = `Tries: ${tries}`
+      container.appendChild(result)
 
       if (tile === lastTile) {
         pairs += 1
         if (pairs === (cols * rows) / 2) {
-          console.log('Winner! you won on ' + tries)
+          result.textContent = `You won on ${tries} tries!`
         }
 
         setTimeout(function () {

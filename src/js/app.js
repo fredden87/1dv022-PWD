@@ -7,6 +7,7 @@ document.querySelector('#memory').addEventListener('click', startMemory)
 document.querySelector('#chat').addEventListener('click', startChat)
 document.querySelector('#bitcoin').addEventListener('click', startBitcoin)
 
+// Starts a memory window
 function startMemory () {
   const windowHandler = document.createElement('window-handler')
   document.querySelector('#container').prepend(windowHandler)
@@ -18,6 +19,7 @@ function startMemory () {
   windowHandler.component = container
 }
 
+// Starts a chat window
 function startChat () {
   const windowHandler = document.createElement('window-handler')
   document.querySelector('#container').prepend(windowHandler)
@@ -25,6 +27,8 @@ function startChat () {
   windowHandler.name = 'Chat'
   windowHandler.component = document.createElement('chat-app')
 }
+
+// Starts a bitcoin window
 function startBitcoin () {
   const windowHandler = document.createElement('window-handler')
   document.querySelector('#container').prepend(windowHandler)

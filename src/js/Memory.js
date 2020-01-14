@@ -1,3 +1,4 @@
+// Memory game that can be of a desired size
 export default function (rows, cols, container) {
   let a
   let tiles = []
@@ -31,6 +32,8 @@ export default function (rows, cols, container) {
     turnBrick(tiles[index], img)
   })
 
+  // Handles the turn brick event and counts number of tries and if the game is over,
+  // also presents how many tries the user have made, and if the game is over
   function turnBrick (tile, img) {
     if (turn2) {
       return
@@ -74,6 +77,7 @@ export default function (rows, cols, container) {
     }
   }
 
+  // Creates a shuffles picture array for the game
   function getPictureArray (rows, cols) {
     const array = []
     for (let i = 1; i <= (rows * cols) / 2; i += 1) {

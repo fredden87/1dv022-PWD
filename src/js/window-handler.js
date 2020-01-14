@@ -49,7 +49,8 @@ template.innerHTML = /* html */`
 </div>
 </div>
 `
-
+// A window handler component that creates a window that is draggable
+// and able to take other component inside it
 export default class WindowHandler extends window.HTMLElement {
   constructor () {
     super()
@@ -57,24 +58,29 @@ export default class WindowHandler extends window.HTMLElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true))
   }
 
+  // Static value to get z-index on windows
   static get zIndex () {
     return _zIndex
   }
 
+  // Static value to set z-index on windows
   static set zIndex (value) {
     _zIndex += value
   }
 
+  // Sets the component inside the window
   set component (component) {
     this.shadowRoot.querySelector('#app').appendChild(component)
   }
 
+  // Sets the path to the icon in the upper left
   set icon (path) {
     const img = document.createElement('IMG')
     img.src = path
     this.shadowRoot.querySelector('#icon').appendChild(img)
   }
 
+  // Sets the name on the app in the upper mid
   set name (name) {
     this.shadowRoot.querySelector('#name').textContent = name
   }
@@ -85,6 +91,7 @@ export default class WindowHandler extends window.HTMLElement {
     this._updateZindex()
   }
 
+  // When the mouse if clicked down this functions handles what to do
   _handelMouseEvents (event) {
     event.preventDefault()
     const close = this.shadowRoot.querySelector('#imgClose')
@@ -106,6 +113,7 @@ export default class WindowHandler extends window.HTMLElement {
     }
   }
 
+  // Handlers the dragging event
   _elementDrag (event) {
     event.preventDefault()
     // calculate the new cursor position
@@ -118,6 +126,7 @@ export default class WindowHandler extends window.HTMLElement {
     event.target.style.left = `${(event.target.offsetLeft - this._pos1)}px`
   }
 
+  // Handels the ending of the dragging event
   _closeDragElement (event) {
     // stop moving when mouse button is released
     this._unfocusWindow()
@@ -126,20 +135,24 @@ export default class WindowHandler extends window.HTMLElement {
     event.target.onmousemove = null
   }
 
+  // Handels the closing of the window
   _remove () {
     this.removeEventListener('mousedown', this._handelMouseEvents)
     this.remove()
   }
 
+  // Updates the z-index value of the window
   _updateZindex () {
     this.style.zIndex = _zIndex
     _zIndex++
   }
 
+  // Makes the window get in focus
   _focusWindow () {
     this.style.border = 'solid rgb(126, 126, 126)'
   }
 
+  // Removes the focus
   _unfocusWindow () {
     this.style.border = ''
   }

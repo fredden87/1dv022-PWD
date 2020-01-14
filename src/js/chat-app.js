@@ -36,7 +36,7 @@ li {
 <button type="button" id="changeusername">Change username</button>
 </div>
 `
-
+// An chat app that let the user chat on the LNU websocket server
 export default class ChatApp extends window.HTMLElement {
   constructor () {
     super()
@@ -81,10 +81,13 @@ export default class ChatApp extends window.HTMLElement {
     })
   }
 
+  // When app is closed disconnect from websocket
   disconnectedCallback () {
     this._socket.close()
   }
 
+  // When receiving data from the websocket, formating it and present it to the user
+  // also makes sure there is no more then 50 messages displayd
   _receive (event) {
     const data = JSON.parse(event.data)
     if (data.type === 'message' || data.type === 'notification') {
@@ -98,6 +101,7 @@ export default class ChatApp extends window.HTMLElement {
     }
   }
 
+  // Handles the option to set username, and sending chat messages
   _send (event) {
     // Set username, else chat
     if (this._hasUsername === false) {
@@ -120,12 +124,14 @@ export default class ChatApp extends window.HTMLElement {
     }
   }
 
+  // Get the time right now to show next to chat messages
   _time () {
     const date = new Date()
     const time = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
     return time
   }
 
+  // Renders the username input
   _setUserNameInput () {
     this._changeUsername.disabled = true
     this._chatMessage.value = ''
@@ -136,6 +142,7 @@ export default class ChatApp extends window.HTMLElement {
     this.shadowRoot.querySelector('#input').prepend(p)
   }
 
+  // Removes the username input
   _removeUserNameInput () {
     this._changeUsername.disabled = false
     this.shadowRoot.querySelector('#input').removeChild(this.shadowRoot.querySelector('#input').firstChild)

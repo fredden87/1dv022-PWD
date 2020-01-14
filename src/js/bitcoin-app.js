@@ -35,7 +35,8 @@ li {
 <div id="total">Total transfered: </div>
 </div>
 `
-
+// A bitcoin app that shows the user realtime bitcoin transactions
+// and sums them up.
 export default class BitcoinApp extends window.HTMLElement {
   constructor () {
     super()
@@ -58,14 +59,18 @@ export default class BitcoinApp extends window.HTMLElement {
     })
   }
 
+  // When app is closed disconnect from websocket
   disconnectedCallback () {
     this._socket.close()
   }
 
+  // When websocker connects subscribe to all bitcoin events
   _connected (event) {
     this._socket.send(JSON.stringify({ op: 'unconfirmed_sub' }))
   }
 
+  // When receiving data from the websocket, formating it and present it to the user
+  // also makes sure there is no more then 50 transactions displayd
   _receive (event) {
     const data = JSON.parse(event.data)
     data.x.out.forEach(element => {
@@ -84,6 +89,7 @@ export default class BitcoinApp extends window.HTMLElement {
     })
   }
 
+  // Get the latest price of 1 bitcoin in SEK and present it to the user
   async _setBitcoinPrice () {
     const url = 'https://api.coindesk.com/v1/bpi/currentprice/SEK.json'
     const req = await window.fetch(url)

@@ -4,6 +4,10 @@ html, body {
     padding: 0;
 }
 
+img {
+    width: 100%;
+}
+
 #container {
     background-image: url("/image/bgstars.jpg");
     width: 100%;

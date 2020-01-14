@@ -5,7 +5,7 @@ import Memory from './Memory.js'
 
 document.querySelector('#memory').addEventListener('click', startMemory)
 document.querySelector('#chat').addEventListener('click', startChat)
-document.querySelector('#webcam').addEventListener('click', startWebcam)
+document.querySelector('#bitcoin').addEventListener('click', startWebcam)
 
 function startMemory () {
   const windowHandler = document.createElement('window-handler')
@@ -24,4 +24,5 @@ function startChat () {
 function startWebcam () {
   const windowHandler = document.createElement('window-handler')
   document.querySelector('#container').prepend(windowHandler)
+  windowHandler.component = document.createElement('bitcoin-app')
 }

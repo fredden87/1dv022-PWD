@@ -89,9 +89,9 @@ export default class BitcoinApp extends window.HTMLElement {
           this._bitcoinMessages.removeChild(this._bitcoinMessages.childNodes[1])
         }
         this._totalBitcoins = this._totalBitcoins + value
-        this._total.textContent = `Total transfered: ${this._totalBitcoins} BTC`
+        this._total.textContent = `Total transfered: ${this._totalBitcoins.toFixed(2)} BTC`
         const li = document.createElement('li')
-        li.appendChild(document.createTextNode(`${value} ---> ${element.addr}`))
+        li.appendChild(document.createTextNode(`${value} ---> ${element.addr.substring(0, 25)}...`))
         this._bitcoinMessages.appendChild(li)
         this._bitcoin.scrollTop = this._bitcoin.scrollHeight
       }

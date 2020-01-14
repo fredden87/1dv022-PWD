@@ -48,14 +48,6 @@ export default class BitcoinApp extends window.HTMLElement {
     this._socket = new window.WebSocket('wss://ws.blockchain.info/inv')
   }
 
-  static get observedAttributes () {
-    return ['text']
-  }
-
-  attributeChangedCallback (name, oldValue, newValue) {
-
-  }
-
   connectedCallback () {
     this._setBitcoinPrice()
     this._socket.addEventListener('open', (event) => {
@@ -68,10 +60,6 @@ export default class BitcoinApp extends window.HTMLElement {
 
   disconnectedCallback () {
     this._socket.close()
-  }
-
-  _updateRendering () {
-
   }
 
   _connected (event) {

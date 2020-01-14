@@ -79,22 +79,10 @@ export default class WindowHandler extends window.HTMLElement {
     this.shadowRoot.querySelector('#name').textContent = name
   }
 
-  static get observedAttributes () {
-    return ['text']
-  }
-
-  attributeChangedCallback (name, oldValue, newValue) {
-
-  }
-
   connectedCallback () {
     this._pos1 = 0; this._pos2 = 0; this._pos3 = 0; this._pos4 = 0
     this.addEventListener('mousedown', this._handelMouseEvents)
     this._updateZindex()
-  }
-
-  _updateRendering () {
-
   }
 
   _handelMouseEvents (event) {

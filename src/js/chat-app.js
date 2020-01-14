@@ -58,21 +58,12 @@ export default class ChatApp extends window.HTMLElement {
     this._socket = new window.WebSocket('ws://vhost3.lnu.se:20080/socket/')
   }
 
-  static get observedAttributes () {
-    return ['text']
-  }
-
-  attributeChangedCallback (name, oldValue, newValue) {
-
-  }
-
   connectedCallback () {
     if (!window.localStorage.getItem('username')) {
       this._setUserNameInput()
     } else {
       this._chatObj.username = window.localStorage.getItem('username')
     }
-    this._socket.addEventListener('open', this._connected)
     this._socket.addEventListener('message', (event) => {
       this._receive(event)
     })
@@ -92,13 +83,6 @@ export default class ChatApp extends window.HTMLElement {
 
   disconnectedCallback () {
     this._socket.close()
-  }
-
-  _updateRendering () {
-
-  }
-
-  _connected (event) {
   }
 
   _receive (event) {

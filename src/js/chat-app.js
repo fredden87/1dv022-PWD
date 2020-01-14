@@ -13,7 +13,7 @@ li {
 #chat {
   height: 400px;
   top: 0;
-  background-color: grey;
+  background-color: white;
   text-align: left;
   overflow: auto;
 }

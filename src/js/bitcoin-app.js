@@ -35,7 +35,9 @@ export default class BitcoinApp extends window.HTMLElement {
   }
 
   connectedCallback () {
-    this._socket.addEventListener('open', this._connected)
+    this._socket.addEventListener('open', (event) => {
+      this._connected()
+    })
     this._socket.addEventListener('message', (event) => {
       this._receive(event)
     })
@@ -50,7 +52,7 @@ export default class BitcoinApp extends window.HTMLElement {
   }
 
   _connected (event) {
-    console.log('connected')
+    this._socket.send(JSON.stringify({ op: 'unconfirmed_sub' }))
   }
 
   _receive (event) {
@@ -60,7 +62,7 @@ export default class BitcoinApp extends window.HTMLElement {
     }
     const li = document.createElement('li')
     li.appendChild(document.createTextNode(`${data}`))
-    this._chatMessages.appendChild(li)
+    this._bitcoinMessages.appendChild(li)
     this._chat.scrollTop = this._chat.scrollHeight
   }
 }
